@@ -9,12 +9,12 @@
     :root{
       --bg1:#FCE8EF;
       --bg2:#EBD3DA;
-      --accent:#A66AB8; /* 은은한 퍼플로 살짝 조정 */
+      --accent:#A66AB8;
       --muted:#6B5E64;
       --card:#FFFFFF;
       font-family: 'Noto Sans KR', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
     }
-    
+
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
@@ -27,7 +27,7 @@
     }
     h1{margin:0 0 8px; font-size:20px}
     p.lead{margin:0 0 20px; color:var(--muted)}
-    
+
     .lucky-btn{
       width:140px; height:140px;
       border-radius:50%;
@@ -60,7 +60,6 @@
 
     footer{margin-top:18px; font-size:12px; color:var(--muted)}
 
-    /* responsive */
     @media (max-width:420px){body{padding:16px}.card{padding:20px}}
   </style>
 </head>
@@ -70,21 +69,17 @@
     <p class="lead">NFC 키링으로 연결되는 간단한 페이지입니다. 버튼을 눌러 친구에게 작은 행복을 선물하세요.</p>
 
     <button class="lucky-btn" id="luckyBtn" aria-label="행운의 메시지 받기">
-      <!-- love letter icon -->
+      <!-- 까마귀 아이콘 -->
       <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-        <rect x="3" y="5" width="18" height="14" rx="2" ry="2" stroke="currentColor" stroke-width="1.8" fill="none"/>
-        <path d="M3 7l9 7 9-7" stroke="currentColor" stroke-width="1.8" fill="none"/>
-        <path d="M12 12.5l2-2a1.5 1.5 0 0 0-2-2 1.5 1.5 0 0 0-2 2l2 2z" fill="currentColor"/>
+        <path d="M20 7c-1 0-1.5-.5-2-1-1-1-2.5-1.5-4-1.5s-3 .5-4 1.5l-3 3 1 1h3v2l2 1v2h2v-3l1-1 2 2v-2h2c1.5 0 3-1.5 3-3s-1-2-2-2z" fill="currentColor"/>
       </svg>
     </button>
-
 
     <div class="hint">아이콘을 눌러 행운의 문구를 받아보세요.</div>
 
     <footer>원하는 문구로 쉽게 교체할 수 있습니다 — 마음에 드는 문구를 넣어 친구에게 공유하세요.</footer>
   </main>
 
-  <!-- modal -->
   <div id="modalBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal" role="document">
       <div style="font-size:32px">🍀</div>
@@ -94,7 +89,7 @@
   </div>
 
   <script>
-    // 메시지 목록(원하시면 자유롭게 편집하세요)
+    // 메시지 목록
     const MESSAGES = [
       '오늘은 작은 기적이 당신의 편이에요. 한 번 미소 지어보세요.',
       '새로운 시도를 해볼 좋은 날이에요 — 용기를 내보세요!',
@@ -133,9 +128,15 @@
     closeBtn.addEventListener('click',hideModal);
     modal.addEventListener('click',(e)=>{ if(e.target===modal) hideModal(); });
 
-    // 간단한 confetti 생성
+    // 🎨 버건디 중심 컨페티 색상
     function launchConfetti(){
-      const colors = ['#7F5AF0','#F59E0B','#EF4444','#10B981','#06B6D4'];
+      const colors = [
+        '#6E2C3E', // 딥 버건디
+        '#A34A6B', // 로즈 버건디
+        '#C97A8C', // 따뜻한 장밋빛
+        '#E5AEBE', // 부드러운 로즈핑크
+        '#F6D8DE'  // 아주 옅은 핑크
+      ];
       const count = 24;
       for(let i=0;i<count;i++){
         const el = document.createElement('div');
@@ -149,14 +150,11 @@
         el.style.animation = `confetti-fall ${duration}s linear ${delay}s forwards`;
         el.style.zIndex = 9999;
         document.body.appendChild(el);
-        // 제거
         setTimeout(()=>{ el.remove(); }, (delay+duration+0.2)*1000);
       }
     }
 
-    // 키보드 접근성: Enter/Space로 버튼 누르기
     btn.addEventListener('keydown',(e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); btn.click(); } });
-
   </script>
 </body>
 </html>
