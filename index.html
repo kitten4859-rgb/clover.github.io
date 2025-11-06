@@ -135,7 +135,7 @@
 
     // 간단한 confetti 생성
     function launchConfetti(){
-      const colors = ['#7F5AF0','#F59E0B','#EF4444','#10B981','#06B6D4'];
+      const colors = ['#8C3A53', '#B35A72', '#DDA6B8', '#F2D7DD', '#FFF1F3'];
       const count = 24;
       for(let i=0;i<count;i++){
         const el = document.createElement('div');
@@ -148,11 +148,12 @@
         const duration = 1.2 + Math.random()*1.2;
         el.style.animation = `confetti-fall ${duration}s linear ${delay}s forwards`;
         el.style.zIndex = 9999;
+        el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px'; // 깃털/꽃잎 질감 표현
         document.body.appendChild(el);
-        // 제거
         setTimeout(()=>{ el.remove(); }, (delay+duration+0.2)*1000);
       }
     }
+
 
     // 키보드 접근성: Enter/Space로 버튼 누르기
     btn.addEventListener('keydown',(e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); btn.click(); } });
