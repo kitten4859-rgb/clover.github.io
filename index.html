@@ -7,10 +7,10 @@
   <meta name="description" content="NFC 키링용 간단한 행운 메시지 페이지. 아이콘을 눌러 친구에게 하루의 행복을 선물하세요." />
   <style>
     :root{
-      --bg1:#F7E4E8;
-      --bg2:#D9A7B0;
-      --accent:#8C3A53; /* 메인 버건디 포인트 */
-      --muted:#705C60;
+      --bg1:#FCE8EF;
+      --bg2:#EBD3DA;
+      --accent:#A66AB8; /* 은은한 퍼플로 살짝 조정 */
+      --muted:#6B5E64;
       --card:#FFFFFF;
       font-family: 'Noto Sans KR', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
     }
@@ -34,8 +34,8 @@
       margin:12px auto;
       display:flex; align-items:center; justify-content:center;
       cursor:pointer;
-      background:linear-gradient(180deg, rgba(140,58,83,0.15), rgba(140,58,83,0.08));
-      border:2px solid rgba(140,58,83,0.15);
+      background:linear-gradient(180deg, rgba(166,106,184,0.15), rgba(166,106,184,0.08));
+      border:2px solid rgba(166,106,184,0.15);
       transition:transform .18s ease, box-shadow .18s ease;
       position:relative;
       overflow:visible;
@@ -135,7 +135,7 @@
 
     // 간단한 confetti 생성
     function launchConfetti(){
-      const colors = ['#8C3A53', '#B35A72', '#DDA6B8', '#F2D7DD', '#FFF1F3'];
+      const colors = ['#7F5AF0','#F59E0B','#EF4444','#10B981','#06B6D4'];
       const count = 24;
       for(let i=0;i<count;i++){
         const el = document.createElement('div');
@@ -148,12 +148,11 @@
         const duration = 1.2 + Math.random()*1.2;
         el.style.animation = `confetti-fall ${duration}s linear ${delay}s forwards`;
         el.style.zIndex = 9999;
-        el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px'; // 깃털/꽃잎 질감 표현
         document.body.appendChild(el);
+        // 제거
         setTimeout(()=>{ el.remove(); }, (delay+duration+0.2)*1000);
       }
     }
-
 
     // 키보드 접근성: Enter/Space로 버튼 누르기
     btn.addEventListener('keydown',(e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); btn.click(); } });
