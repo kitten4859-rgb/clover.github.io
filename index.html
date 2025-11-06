@@ -18,22 +18,8 @@
     html,body{height:100%}
     body{
       margin:0; padding:32px; background:linear-gradient(135deg,var(--bg1),var(--bg2));
-      display:flex; align-items:center; text-align: center; justify-content:center; color:#0f172a;
+      display:flex; align-items:center; justify-content:center; color:#0f172a;
     }
-    
-    .icon {
-      font-size: 80px;         /* 아이콘 크기 */
-      display: inline-block;
-      line-height: 1;
-      cursor: pointer;
-      transition: transform 0.2s ease, filter 0.2s ease;
-    }
-    
-    .icon:hover {
-      transform: scale(1.15);  /* 살짝 커짐 */
-      filter: brightness(1.3); /* 밝기 효과 */
-    }
-    
     .card{
       width:100%; max-width:420px; background:var(--card); border-radius:18px; padding:28px; box-shadow:0 8px 30px rgba(15,23,42,0.08);
       text-align:center;
@@ -76,10 +62,12 @@
 
     <button class="lucky-btn" id="luckyBtn" aria-label="행운의 메시지 받기">
       <!-- simple clover icon -->
-      <div id="icon-container">
-        <span class="icon" role="img" aria-label="까마귀 아이콘">🐦‍⬛</span>
-      </div>
-
+      <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+        <path d="M12 13.2s4.2-2.4 4.2-5.4A2.4 2.4 0 0 0 13.8 5.4 2.4 2.4 0 0 0 12 6.6c-.6-1.2-1.8-3-4.2-1.8C5 6 6.6 9 8.4 10.2c1.8 1.2 3.6 2.4 3.6 2.4z" fill="currentColor" opacity="0.08"/>
+        <g fill="currentColor">
+          <path d="M8.25 3.75a2.25 2.25 0 0 0-3.182 3.18l3.182-3.18zM3.07 9.93a2.25 2.25 0 0 0 3.182 3.18L3.07 9.93zM12 12.75c0 2.484-2.016 4.5-4.5 4.5S3 15.234 3 12.75 5.016 8.25 7.5 8.25 12 10.266 12 12.75zM20.25 3.75a2.25 2.25 0 0 1 0 3.182L20.25 3.75zM20.25 9.93L16.5 13.68a2.25 2.25 0 1 1-3.182-3.18L20.25 9.93z"/>
+        </g>
+      </svg>
     </button>
 
     <div class="hint">아이콘을 눌러 행운의 문구를 받아보세요.</div>
