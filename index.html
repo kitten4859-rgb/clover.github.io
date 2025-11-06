@@ -7,14 +7,14 @@
   <meta name="description" content="NFC 키링용 간단한 행운 메시지 페이지. 아이콘을 눌러 친구에게 하루의 행복을 선물하세요." />
   <style>
     :root{
-      --bg1:#FCE8EF;
-      --bg2:#EBD3DA;
-      --accent:#A66AB8;
-      --muted:#6B5E64;
+      --bg1:#F7E4E8;
+      --bg2:#D9A7B0;
+      --accent:#8C3A53; /* 메인 버건디 포인트 */
+      --muted:#705C60;
       --card:#FFFFFF;
       font-family: 'Noto Sans KR', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
     }
-
+    
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
@@ -27,15 +27,15 @@
     }
     h1{margin:0 0 8px; font-size:20px}
     p.lead{margin:0 0 20px; color:var(--muted)}
-
+    
     .lucky-btn{
       width:140px; height:140px;
       border-radius:50%;
       margin:12px auto;
       display:flex; align-items:center; justify-content:center;
       cursor:pointer;
-      background:linear-gradient(180deg, rgba(166,106,184,0.15), rgba(166,106,184,0.08));
-      border:2px solid rgba(166,106,184,0.15);
+      background:linear-gradient(180deg, rgba(140,58,83,0.15), rgba(140,58,83,0.08));
+      border:2px solid rgba(140,58,83,0.15);
       transition:transform .18s ease, box-shadow .18s ease;
       position:relative;
       overflow:visible;
@@ -69,9 +69,11 @@
     <p class="lead">NFC 키링으로 연결되는 간단한 페이지입니다. 버튼을 눌러 친구에게 작은 행복을 선물하세요.</p>
 
     <button class="lucky-btn" id="luckyBtn" aria-label="행운의 메시지 받기">
-      <!-- 까마귀 아이콘 -->
+      <!-- love letter icon -->
       <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-        <path d="M20 7c-1 0-1.5-.5-2-1-1-1-2.5-1.5-4-1.5s-3 .5-4 1.5l-3 3 1 1h3v2l2 1v2h2v-3l1-1 2 2v-2h2c1.5 0 3-1.5 3-3s-1-2-2-2z" fill="currentColor"/>
+        <rect x="3" y="5" width="18" height="14" rx="2" ry="2" stroke="currentColor" stroke-width="1.8" fill="none"/>
+        <path d="M3 7l9 7 9-7" stroke="currentColor" stroke-width="1.8" fill="none"/>
+        <path d="M12 12.5l2-2a1.5 1.5 0 0 0-2-2 1.5 1.5 0 0 0-2 2l2 2z" fill="currentColor"/>
       </svg>
     </button>
 
@@ -80,6 +82,7 @@
     <footer>원하는 문구로 쉽게 교체할 수 있습니다 — 마음에 드는 문구를 넣어 친구에게 공유하세요.</footer>
   </main>
 
+  <!-- modal -->
   <div id="modalBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal" role="document">
       <div style="font-size:32px">🍀</div>
@@ -89,7 +92,6 @@
   </div>
 
   <script>
-    // 메시지 목록
     const MESSAGES = [
       '오늘은 작은 기적이 당신의 편이에요. 한 번 미소 지어보세요.',
       '새로운 시도를 해볼 좋은 날이에요 — 용기를 내보세요!',
@@ -128,14 +130,14 @@
     closeBtn.addEventListener('click',hideModal);
     modal.addEventListener('click',(e)=>{ if(e.target===modal) hideModal(); });
 
-    // 🎨 버건디 중심 컨페티 색상
+    // 🎨 버건디 중심 confetti 색상 팔레트
     function launchConfetti(){
       const colors = [
         '#6E2C3E', // 딥 버건디
-        '#A34A6B', // 로즈 버건디
-        '#C97A8C', // 따뜻한 장밋빛
-        '#E5AEBE', // 부드러운 로즈핑크
-        '#F6D8DE'  // 아주 옅은 핑크
+        '#8C3A53', // 메인 버건디
+        '#B46A7E', // 로즈 버건디
+        '#D9A7B0', // 배경과 어울리는 밝은 핑크 버건디
+        '#F2D3D8'  // 은은한 로즈화이트
       ];
       const count = 24;
       for(let i=0;i<count;i++){
