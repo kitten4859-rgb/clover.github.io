@@ -1,231 +1,163 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>행운의 까마귀</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>하루의 행운 — 작은 선물</title>
+  <meta name="description" content="NFC 키링용 간단한 행운 메시지 페이지. 아이콘을 눌러 친구에게 하루의 행복을 선물하세요." />
   <style>
-    :root {
-      --bg1: #F8E6EA;
-      --bg2: #D4A3B0;
-      --accent: #8C3A53;
-      --muted: #705C60;
-      --card: #FFFFFF;
-      font-family: 'Noto Sans KR', system-ui, sans-serif;
+    :root{
+      --bg1:#F7E4E8;
+      --bg2:#D9A7B0;
+      --accent:#8C3A53; /* 메인 버건디 포인트 */
+      --muted:#705C60;
+      --card:#FFFFFF;
+      font-family: 'Noto Sans KR', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
     }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      height: 100vh;
-      background: linear-gradient(135deg, var(--bg1), var(--bg2));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #0f172a;
-      overflow: hidden;
+    
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; padding:32px; background:linear-gradient(135deg,var(--bg1),var(--bg2));
+      display:flex; align-items:center; justify-content:center; color:#0f172a;
     }
-
-    .card {
-      background: var(--card);
-      border-radius: 18px;
-      padding: 28px;
-      box-shadow: 0 8px 30px rgba(15,23,42,0.08);
-      text-align: center;
-      width: 100%;
-      max-width: 420px;
+    .card{
+      width:100%; max-width:420px; background:var(--card); border-radius:18px; padding:28px; box-shadow:0 8px 30px rgba(15,23,42,0.08);
+      text-align:center;
     }
-
-    h1 { margin-bottom: 8px; font-size: 20px; }
-    p.lead { color: var(--muted); margin-bottom: 20px; }
-
-    .lucky-btn {
-      width: 140px; height: 140px;
-      border-radius: 50%;
-      margin: 12px auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      background: linear-gradient(180deg, rgba(140,58,83,0.15), rgba(140,58,83,0.08));
-      border: 2px solid rgba(140,58,83,0.15);
-      transition: transform .18s ease, box-shadow .18s ease;
+    h1{margin:0 0 8px; font-size:20px}
+    p.lead{margin:0 0 20px; color:var(--muted)}
+    
+    .lucky-btn{
+      width:140px; height:140px;
+      border-radius:50%;
+      margin:12px auto;
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer;
+      background:linear-gradient(180deg, rgba(140,58,83,0.15), rgba(140,58,83,0.08));
+      border:2px solid rgba(140,58,83,0.15);
+      transition:transform .18s ease, box-shadow .18s ease;
+      position:relative;
+      overflow:visible;
     }
-    .lucky-btn:active { transform: scale(.96); }
-
-    .icon {
-      font-size: 60px;
-    }
-
-    .hint {
-      font-size: 13px;
-      color: var(--muted);
-      margin-top: 10px;
-    }
+    .lucky-btn:active{transform:scale(.98)}
+    .icon{width:72px; height:72px; display:inline-block}
+    .hint{font-size:13px; color:var(--muted); margin-top:10px}
 
     /* modal */
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(2,6,23,0.44);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .2s ease;
-    }
-    .modal-backdrop.show {
-      opacity: 1;
-      pointer-events: auto;
-    }
-    .modal {
-      background: linear-gradient(180deg,#ffffff,#fffafc);
-      border-radius: 14px;
-      padding: 22px;
-      width: 90%;
-      max-width: 380px;
-      text-align: center;
-      box-shadow: 0 20px 50px rgba(2,6,23,0.28);
-      transform: translateY(8px);
-      transition: transform .18s ease;
-    }
-    .fortune {
-      font-size: 18px;
-      margin: 8px 0 12px;
-      line-height: 1.45;
-    }
-    .close-btn {
-      background: var(--accent);
-      color: white;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 10px;
-      font-weight: 600;
-      cursor: pointer;
-    }
+    .modal-backdrop{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(2,6,23,0.44); opacity:0; pointer-events:none; transition:opacity .2s ease}
+    .modal-backdrop.show{opacity:1; pointer-events:auto}
+    .modal{background:linear-gradient(180deg,#ffffff,#fffafc); border-radius:14px; padding:22px; width:90%; max-width:380px; text-align:center; box-shadow:0 20px 50px rgba(2,6,23,0.28); transform:translateY(8px); transition:transform .18s ease}
+    .fortune{font-size:18px; margin:8px 0 12px; line-height:1.45}
+    .close-btn{background:var(--accent); color:white; border:none; padding:10px 16px; border-radius:10px; font-weight:600; cursor:pointer}
 
     /* confetti */
-    .confetti-piece {
-      position: fixed;
-      top: 0;
-      pointer-events: none;
-      z-index: 9999;
-      opacity: 0.9;
-      animation: confetti-fall 3.8s linear forwards;
+    .confetti-piece{position:fixed; width:10px; height:16px; opacity:0.95; transform-origin:center; will-change:transform, opacity}
+    @keyframes confetti-fall{
+      0%{transform:translateY(-10vh) rotate(0); opacity:1}
+      100%{transform:translateY(110vh) rotate(720deg); opacity:0}
     }
 
-    .petal {
-      background: #C26D85;
-      width: 18px;
-      height: 22px;
-      clip-path: ellipse(40% 60% at 50% 50%);
-      border-radius: 50%;
-      transform: rotate(15deg);
-      filter: drop-shadow(0 0 4px rgba(80,0,20,0.3));
-    }
+    footer{margin-top:18px; font-size:12px; color:var(--muted)}
 
-    .feather {
-      background: linear-gradient(145deg, #682B3D, #9E4C66);
-      width: 10px;
-      height: 28px;
-      border-radius: 50% 50% 50% 50% / 70% 70% 30% 30%;
-      clip-path: polygon(50% 0%, 65% 20%, 55% 40%, 60% 60%, 50% 100%, 40% 60%, 45% 40%, 35% 20%);
-      filter: drop-shadow(0 0 5px rgba(40,0,0,0.4));
-    }
-
-    @keyframes confetti-fall {
-      0% {
-        transform: translate(0, -10vh) rotate(0deg);
-        opacity: 1;
-      }
-      50% {
-        transform: translate(-10px, 50vh) rotate(180deg);
-      }
-      100% {
-        transform: translate(10px, 110vh) rotate(360deg);
-        opacity: 0;
-      }
-    }
-
-    footer {
-      margin-top: 18px;
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    @media (max-width: 420px) {
-      body { padding: 16px; }
-      .card { padding: 20px; }
-    }
+    /* responsive */
+    @media (max-width:420px){body{padding:16px}.card{padding:20px}}
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>행운의 까마귀</h1>
-    <p class="lead">오늘의 행운을 받아보세요</p>
+  <main class="card" role="main">
+    <h1>하루의 행운을 전해요 ✨</h1>
+    <p class="lead">NFC 키링으로 연결되는 간단한 페이지입니다. 버튼을 눌러 친구에게 작은 행복을 선물하세요.</p>
 
-    <div class="lucky-btn" onclick="showFortune()">
-      <span class="icon">🐦‍⬛</span>
-    </div>
-    <p class="hint">아이콘을 눌러보세요</p>
+    <button class="lucky-btn" id="luckyBtn" aria-label="행운의 메시지 받기">
+      <!-- love letter icon -->
+      <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+        <rect x="3" y="5" width="18" height="14" rx="2" ry="2" stroke="currentColor" stroke-width="1.8" fill="none"/>
+        <path d="M3 7l9 7 9-7" stroke="currentColor" stroke-width="1.8" fill="none"/>
+        <path d="M12 12.5l2-2a1.5 1.5 0 0 0-2-2 1.5 1.5 0 0 0-2 2l2 2z" fill="currentColor"/>
+      </svg>
+    </button>
 
-    <footer>© 2025 Lucky Crow</footer>
-  </div>
 
-  <div class="modal-backdrop" id="modal">
-    <div class="modal">
-      <div class="fortune" id="fortune-text"></div>
-      <button class="close-btn" onclick="closeModal()">닫기</button>
+    <div class="hint">아이콘을 눌러 행운의 문구를 받아보세요.</div>
+
+    <footer>원하는 문구로 쉽게 교체할 수 있습니다 — 마음에 드는 문구를 넣어 친구에게 공유하세요.</footer>
+  </main>
+
+  <!-- modal -->
+  <div id="modalBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal" role="document">
+      <div style="font-size:32px">🍀</div>
+      <div id="fortuneText" class="fortune">행운의 메시지</div>
+      <button id="closeBtn" class="close-btn">받았어요</button>
     </div>
   </div>
 
   <script>
-    const messages = [
-      "작은 기쁨이 오늘 당신 곁을 맴돌 거예요 🍀",
-      "당신의 하루가 부드러운 빛으로 물들 거예요 ✨",
-      "행운의 깃털이 어깨에 살포시 내려앉았어요 🕊️",
-      "오늘은 뜻밖의 좋은 소식을 듣게 될지도 몰라요 💌",
-      "당신의 미소가 누군가의 하루를 밝혀줄 거예요 ☀️",
-      "붉은 꽃잎처럼 따뜻한 일이 찾아올 거예요 🌸",
-      "작은 선택이 큰 행복으로 이어질 거예요 🌿",
-      "까마귀가 전해준 행운이 당신 곁에 머물러요 🖤",
-      "오늘은 모든 게 조금 더 부드럽게 느껴질 거예요 🌷",
-      "예상치 못한 기쁨이 당신을 찾아옵니다 💫"
+    // 메시지 목록(원하시면 자유롭게 편집하세요)
+    const MESSAGES = [
+      '오늘은 작은 기적이 당신의 편이에요. 한 번 미소 지어보세요.',
+      '새로운 시도를 해볼 좋은 날이에요 — 용기를 내보세요!',
+      '누군가 당신 생각을 하고 있어요. 그 사람과 따뜻한 대화를 나눠보세요.',
+      '행복은 오늘의 작은 선택에서 시작됩니다. 한 가지 좋은 일을 해보세요.',
+      '예상치 못한 기쁨이 찾아올 거예요 — 눈을 크게 떠보세요!',
+      '당신은 생각보다 강해요. 지금의 걸음이 큰 변화를 만듭니다.',
+      '작은 친절이 큰 행복으로 돌아옵니다. 누군가에게 친절을 베풀어보세요.',
+      '지금 하는 숨 한 번이 마음을 가라앉히는 마법이 될 거예요.',
+      '오늘의 커피(또는 차)가 특별히 더 맛있게 느껴질 거예요.',
+      '웃음은 전염됩니다 — 먼저 웃어주세요.'
     ];
 
-    function showFortune() {
-      const randomMsg = messages[Math.floor(Math.random() * messages.length)];
-      document.getElementById("fortune-text").innerText = randomMsg;
-      document.getElementById("modal").classList.add("show");
+    const btn = document.getElementById('luckyBtn');
+    const modal = document.getElementById('modalBackdrop');
+    const fortuneText = document.getElementById('fortuneText');
+    const closeBtn = document.getElementById('closeBtn');
+
+    function randChoose(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+    function showModal(message){
+      fortuneText.textContent = message;
+      modal.classList.add('show');
+      modal.setAttribute('aria-hidden','false');
       launchConfetti();
     }
-
-    function closeModal() {
-      document.getElementById("modal").classList.remove("show");
+    function hideModal(){
+      modal.classList.remove('show');
+      modal.setAttribute('aria-hidden','true');
     }
 
-    function launchConfetti() {
-      const num = 30;
-      for (let i = 0; i < num; i++) {
-        const el = document.createElement("div");
-        el.classList.add("confetti-piece");
+    btn.addEventListener('click',()=>{
+      const msg = randChoose(MESSAGES);
+      showModal(msg);
+    });
+    closeBtn.addEventListener('click',hideModal);
+    modal.addEventListener('click',(e)=>{ if(e.target===modal) hideModal(); });
 
-        // 절반은 꽃잎, 절반은 깃털
-        if (Math.random() > 0.5) {
-          el.classList.add("petal");
-        } else {
-          el.classList.add("feather");
-        }
-
-        el.style.left = Math.random() * 100 + "vw";
-        el.style.animationDelay = Math.random() * 0.8 + "s";
-        el.style.animationDuration = 3 + Math.random() * 2 + "s";
+    // 간단한 confetti 생성
+    function launchConfetti(){
+      const colors = ['#8C3A53', '#B35A72', '#DDA6B8', '#F2D7DD', '#FFF1F3'];
+      const count = 24;
+      for(let i=0;i<count;i++){
+        const el = document.createElement('div');
+        el.className = 'confetti-piece';
+        el.style.left = (50 + (Math.random()*60-30)) + '%';
+        el.style.top = (-10 - Math.random()*10) + 'vh';
+        el.style.background = colors[Math.floor(Math.random()*colors.length)];
+        el.style.transform = `rotate(${Math.random()*360}deg)`;
+        const delay = Math.random()*0.2;
+        const duration = 1.2 + Math.random()*1.2;
+        el.style.animation = `confetti-fall ${duration}s linear ${delay}s forwards`;
+        el.style.zIndex = 9999;
+        el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px'; // 깃털/꽃잎 질감 표현
         document.body.appendChild(el);
-
-        setTimeout(() => el.remove(), 5000);
+        setTimeout(()=>{ el.remove(); }, (delay+duration+0.2)*1000);
       }
     }
+
+
+    // 키보드 접근성: Enter/Space로 버튼 누르기
+    btn.addEventListener('keydown',(e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); btn.click(); } });
+
   </script>
 </body>
 </html>
