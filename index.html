@@ -7,13 +7,14 @@
   <meta name="description" content="NFC 키링용 간단한 행운 메시지 페이지. 아이콘을 눌러 친구에게 하루의 행복을 선물하세요." />
   <style>
     :root{
-      --bg1:#FFF7FB;
-      --bg2:#F0FFF4;
-      --accent:#7F5AF0;
-      --muted:#6B7280;
+      --bg1:#FCE8EF;
+      --bg2:#EBD3DA;
+      --accent:#A66AB8; /* 은은한 퍼플로 살짝 조정 */
+      --muted:#6B5E64;
       --card:#FFFFFF;
       font-family: 'Noto Sans KR', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
     }
+    
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
@@ -26,10 +27,18 @@
     }
     h1{margin:0 0 8px; font-size:20px}
     p.lead{margin:0 0 20px; color:var(--muted)}
+    
     .lucky-btn{
-      width:140px; height:140px; border-radius:50%; margin:12px auto; display:flex; align-items:center; justify-content:center; cursor:pointer;
-      background:linear-gradient(180deg, rgba(127,90,240,0.12), rgba(127,90,240,0.06)); border:2px solid rgba(127,90,240,0.12);
-      transition:transform .18s ease, box-shadow .18s ease; position:relative; overflow:visible;
+      width:140px; height:140px;
+      border-radius:50%;
+      margin:12px auto;
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer;
+      background:linear-gradient(180deg, rgba(166,106,184,0.15), rgba(166,106,184,0.08));
+      border:2px solid rgba(166,106,184,0.15);
+      transition:transform .18s ease, box-shadow .18s ease;
+      position:relative;
+      overflow:visible;
     }
     .lucky-btn:active{transform:scale(.98)}
     .icon{width:72px; height:72px; display:inline-block}
