@@ -54,6 +54,9 @@
     .modal-backdrop{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(2,6,23,0.44); opacity:0; pointer-events:none; transition:opacity .2s ease}
     .modal-backdrop.show{opacity:1; pointer-events:auto}
     .modal{background:linear-gradient(180deg,#ffffff,#fffafc); border-radius:14px; padding:22px; width:90%; max-width:380px; text-align:center; box-shadow:0 20px 50px rgba(2,6,23,0.28); transform:translateY(8px); transition:transform .18s ease}
+    .modal-backdrop.show .modal {
+      transform:translateY(0);
+    }
     .fortune{font-size:18px; margin:8px 0 12px; line-height:1.45}
     .close-btn{background:var(--accent); color:white; border:none; padding:10px 16px; border-radius:10px; font-weight:600; cursor:pointer}
 
